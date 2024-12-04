@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useStateValue } from "../../context";
 import * as uuid from "uuid";
 import { useLocation } from "react-router-dom";
+
 const Login = () => {
   const location = useLocation();
   const fname = useRef(null);
@@ -9,11 +10,11 @@ const Login = () => {
   const age = useRef(null);
   const profession = useRef(null);
   const [gender, setGender] = useState("");
-  const [error, setError] = useState("");
   const [editUser, setEditUser] = useState(false);
   const { user, setUser } = useStateValue();
 
   const updateUserId = location?.search.split("=")[1];
+
   useEffect(() => {
     if (updateUserId) {
       editUserData();
@@ -35,7 +36,7 @@ const Login = () => {
   const handleForm = (e) => {
     e.preventDefault();
     if (!gender) {
-      setError("Please select a gender");
+      alert("Please select a gender");
       return;
     }
 
@@ -52,8 +53,8 @@ const Login = () => {
             }
           : item
       );
-      setUser(updatedUsers);
-      localStorage.setItem("data", JSON.stringify(updatedUsers));
+      setUser(updatedUsers); 
+      localStorage.setItem("data", JSON.stringify(updatedUsers)); // localStorage-ni yangilash
     } else {
       const newUser = {
         id: uuid.v4(),
@@ -68,13 +69,12 @@ const Login = () => {
       localStorage.setItem("data", JSON.stringify(newUsers));
     }
 
-    setError("");
     setEditUser(false);
     fname.current.value = "";
     lname.current.value = "";
     age.current.value = "";
     profession.current.value = "";
-    setGender("");
+    setGender(""); 
   };
 
   return (
@@ -116,27 +116,30 @@ const Login = () => {
           <div className="flex items-center gap-10 justify-center">
             <label className="flex items-center gap-2">
               <input
+                required
                 type="radio"
                 name="gender"
                 value="Male"
                 onChange={(e) => setGender(e.target.value)}
+                checked={gender === "Male"}
                 className="accent-blue-500"
               />
               Male
             </label>
             <label className="flex items-center gap-2">
               <input
+                required
                 type="radio"
                 name="gender"
                 value="Female"
                 onChange={(e) => setGender(e.target.value)}
+                checked={gender === "Female"}
                 className="accent-blue-500"
               />
               Female
             </label>
           </div>
 
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button
             type="submit"
             className="w-full py-3 px-4 rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition"
