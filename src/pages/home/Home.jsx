@@ -19,7 +19,8 @@ const Home = () => {
     setUser(localData);
   }, [setUser]);
   return (
-    <div className="w-full min-h-screen bg-gray-100 py-10">
+    <div className="w-full min-h-screen py-10 bg-slate-50">
+      <h2 className="text-center text-2xl mb-6">Users Data</h2>
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {user?.map((item) => (
           <div
